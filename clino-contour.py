@@ -8,6 +8,7 @@ directory as PNG files.
 """
 
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import numpy as np
 from datetime import datetime
 from csv import reader
@@ -38,7 +39,7 @@ def x_axis(headers):
     str_dates = [date.split(" ")[0] for date in headers[1:]]
     date_objs = [datetime.strptime(date, "%d/%m/%Y") for date in str_dates]
     date_objs.sort()
-    return [(date - date_objs[0]).days for date in date_objs]
+    return np.array(date_objs, dtype=object)
 
 
 def y_axis(data):
@@ -55,7 +56,9 @@ def generate_plot(x, y, z):
     key = plt.colorbar(colour_plot)
     key.ax.set_ylabel("Inclination")
     plt.title("Inclinometer Contour Plot")
-    plt.xlabel("Days")
+    fig.autofmt_xdate()
+    plt.tick_params(axis="x", labelsize=8)
+    #plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%d/%m/%Y"))
     plt.ylabel("Depth (m)")
     plt.gca().invert_yaxis()
     fig.set_tight_layout(True)
