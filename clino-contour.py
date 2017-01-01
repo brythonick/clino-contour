@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """
 ================================================================================
 INCLINOMETER PLOTTING
@@ -8,12 +9,22 @@ directory as PNG files.
 """
 
 import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
+# import matplotlib.dates as mdates
 import numpy as np
 from datetime import datetime
 from csv import reader
 from os import listdir, chdir
 from os.path import isfile, join, dirname, abspath
+from argparse import ArgumentParser
+
+
+# ============================================================================ #
+# ARGUMENTS
+# ============================================================================ #
+parser = ArgumentParser()
+parser.add_argument("-i", "--input", help="TXT file with input values",
+                    type=str)
+args = parser.parse_args()
 
 
 # ============================================================================ #
@@ -58,7 +69,7 @@ def generate_plot(x, y, z):
     plt.title("Inclinometer Contour Plot")
     fig.autofmt_xdate()
     plt.tick_params(axis="x", labelsize=8)
-    #plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%d/%m/%Y"))
+    # plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%d/%m/%Y"))
     plt.ylabel("Depth (m)")
     plt.gca().invert_yaxis()
     fig.set_tight_layout(True)
@@ -79,6 +90,9 @@ def plot(file):
 # MAIN BLOCK
 # ============================================================================ #
 if __name__ == "__main__":
-    script_path = dirname(abspath(__file__))
-    chdir(script_path)
-    [plot(file) for file in get_csv_filenames(".")]
+    if args.input:
+        plot(args.input)
+    else:
+        script_path = dirname(abspath(__file__))
+        chdir(script_path)
+        [plot(file) for file in get_csv_filenames(".")]
