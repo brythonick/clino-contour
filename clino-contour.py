@@ -5,7 +5,14 @@ INCLINOMETER PLOTTING
 ================================================================================
 Plot data from a borehole inclinometer as a contour graph. Data is provided as
 CSV files in the same directory as the script. Plots are also output to the same
-directory as PNG files.
+directory as PNG files. See the example data set for the expected layout of CSV
+input.
+
+Additional packages required:
+matplotlib
+numpy
+
+https://github.com/brythonick/clino-contour
 """
 
 import matplotlib.pyplot as plt
